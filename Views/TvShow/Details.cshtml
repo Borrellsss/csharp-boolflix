@@ -6,8 +6,15 @@
 
 <div>
     <div class="d-flex" style="gap: 2rem;">
-        <div class="mb-3" style="width: 350px; aspect-ratio: 2/3;">
-            <img src="@Model.Cover" alt="@Model.Title" style="width: 100%; height: 100%; object-fit: cover;">
+        <div class="mb-3" style="width: 400px; height: fit-content; aspect-ratio: 2/3;">
+            @if (Model.Cover != null)
+            {
+                <img src="@Model.Cover" alt="@Model.Title" style="width: 100%; height: 100%; object-fit: cover;">
+            }
+            else
+            {
+                <img src="https://troianiortodonzia.it/wp-content/uploads/2016/10/orionthemes-placeholder-image.png" alt="@Model.Title" style="width: 100%; height: 100%; object-fit: cover;">
+            }
         </div>
 
         <div>
@@ -54,16 +61,59 @@
                 <p>@Model.Description</p>
             </div>
 
-            <div class="d-flex" style="margin-inline: auto; width: fit-content; gap: 1rem;">
-                <a href="@Url.Action("Index")" class="btn btn-primary">Torna ai film</a>
+            <div class="d-flex flex-wrap" style="gap: 1rem;">
+                <a href="@Url.Action("Index")" class="btn btn-primary">Torna alle Serie</a>
                 <a href="@Url.Action("Update", new { id = Model.Id })" class="btn btn-warning">Modifica</a>
-                <form asp-controller="Movie" asp-action="Delete" asp-route-id="@Model.Id" method="POST">
+                <form asp-controller="TvShow" asp-action="Delete" asp-route-id="@Model.Id" method="POST">
 
                     @Html.AntiForgeryToken()
 
                     <button type="submit" class="btn btn-danger">Elimina</button>
                 </form>
             </div>
+        </div>
+
+        <div style="flex-grow: 1">
+            <h2>Stagioni</h2>
+            @if (Model.Seasons.Count() > 0)
+            {
+                <ul class="list-group mb-3">
+                    @foreach (Season season in Model.Seasons)
+                    {
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                @if (season.Title != null)
+                                {
+                                    <h5>Stagione @season.Number: @season.Title</h5>
+                                }
+                                else
+                                {
+                                    <h5>Stagione @season.Number</h5>
+                                }
+                                <div>
+                                    <span>episodi</span>
+                                    <span class="badge bg-primary rounded-pill">@(season.Episodes == null ? "0" : season.Episodes.Count())</span>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-wrap  mb-2" style="gap: 1rem;">
+                                <a class="btn btn-warning" asp-controller="Season" asp-action="Update" asp-route-tvShowId="@Model.Id" asp-route-id="@season.Id">Modifica Stagione</a>
+                                <form asp-controller="Season" asp-action="Delete" asp-route-tvShowId="@Model.Id" asp-route-id="@season.Id" method="POST">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn btn-danger">Elimina Stagione</button>
+                                </form>
+                                <a class="btn btn-primary" asp-controller="Episode" asp-action="Index" asp-route-tvShowId="@Model.Id" asp-route-id="@season.Id">Mostra episodi</a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="d-flex mb-3">Nessuna stagione presente</div>
+            }
+            <a class="btn btn-primary mb-2" style="width: 100%;" asp-area="" asp-controller="Season" asp-action="Create" asp-route-id="@Model.Id">Aggiungi Stagione</a>
         </div>
     </div>
 </div>

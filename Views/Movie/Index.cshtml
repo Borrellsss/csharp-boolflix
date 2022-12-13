@@ -13,14 +13,21 @@
             {
                 <div class="col">
                     <div class="ms_card">
-                        <img src="@movie.Cover" alt="@movie.Title">
+                        @if (movie.Cover != null)
+                        {
+                            <img src="@movie.Cover" alt="@movie.Title">
+                        }
+                        else
+                        {
+                            <img src="https://troianiortodonzia.it/wp-content/uploads/2016/10/orionthemes-placeholder-image.png" alt="@movie.Title">
+                        }
                         <div class="ms_card-body">
                             <h5 class="ms_card-title">@movie.Title</h5>
                             <div class="ms_card-text mb-3">
                                 <strong>
-                                    Trama: 
+                                    Voto: 
                                 </strong>
-                                @movie.Description
+                                ?
                             </div>
                             <a href="@Url.Action("Details", new { id = movie.Id })" class="btn btn-primary mb-2" style="width: 100%;">Info</a>
                             <a href="@Url.Action("Update", new { id = movie.Id })" class="btn btn-warning mb-2" style="width: 100%;">Modifica</a>

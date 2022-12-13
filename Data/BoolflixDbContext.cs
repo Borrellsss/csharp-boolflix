@@ -17,7 +17,6 @@ namespace csharp_boolflix.Data
         {
 
         }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

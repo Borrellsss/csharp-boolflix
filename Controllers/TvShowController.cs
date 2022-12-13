@@ -10,11 +10,13 @@ namespace csharp_boolflix.Controllers
     public class TvShowController : Controller
     {
         DbTvShowRepository dbTvShowRepository;
+        DbSeasonRepository dbSeasonRepository;
         DbCategoryRepository dbCategoryRepository;
         DbActorRepository dbActorRepository;
-        public TvShowController(DbTvShowRepository _dbTvShowRepository, DbCategoryRepository _dbCategoryRepository, DbActorRepository _dbActorRepository)
+        public TvShowController(DbTvShowRepository _dbTvShowRepository, DbSeasonRepository _dbSeasonRepository, DbCategoryRepository _dbCategoryRepository, DbActorRepository _dbActorRepository)
         {
             dbTvShowRepository = _dbTvShowRepository;
+            dbSeasonRepository = _dbSeasonRepository;
             dbCategoryRepository = _dbCategoryRepository;
             dbActorRepository = _dbActorRepository;
         }
@@ -25,7 +27,7 @@ namespace csharp_boolflix.Controllers
         }
         public IActionResult Details(int id)
         {
-            TvShow tvShow = dbTvShowRepository.GetById(id, true, true);
+            TvShow tvShow = dbTvShowRepository.GetById(id, true, true, true);
             return View(tvShow);
         }
         public IActionResult Create()
@@ -59,66 +61,66 @@ namespace csharp_boolflix.Controllers
             TvShow createdTvShow = dbTvShowRepository.GetLast(false, false);
             return RedirectToAction("Details", new { id = createdTvShow.Id });
         }
-        //public IActionResult Update(int id)
-        //{
-        //    FormMovie formMovie = new FormMovie();
-        //    formMovie.Movie = dbMovieRepository.GetById(id, true, true);
-        //    if (formMovie.Movie == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    formMovie.Categories = dbCategoryRepository.GetAll();
-        //    formMovie.Actors = dbActorRepository.GetAll();
-        //    formMovie.SelectedCategories = new List<int>();
-        //    formMovie.SelectedActors = new List<int>();
-        //    if (formMovie.Movie.Categories.Count() > 0)
-        //    {
-        //        foreach (Category category in formMovie.Movie.Categories)
-        //        {
-        //            formMovie.SelectedCategories.Add(category.Id);
-        //        }
-        //    }
-        //    if (formMovie.Movie.Actors.Count() > 0)
-        //    {
-        //        foreach (Actor actor in formMovie.Movie.Actors)
-        //        {
-        //            formMovie.SelectedActors.Add(actor.Id);
-        //        }
-        //    }
-        //    return View(formMovie);
-        //}
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Update(int id, FormMovie formMovie)
-        //{
-        //    Movie movieToUpdate = dbMovieRepository.GetById(id, true, true);
-        //    if (movieToUpdate == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    if (!ModelState.IsValid)
-        //    {
-        //        formMovie.Movie = movieToUpdate;
-        //        formMovie.Actors = dbActorRepository.GetAll();
-        //        formMovie.Categories = dbCategoryRepository.GetAll();
-        //        if (formMovie.SelectedCategories == null)
-        //        {
-        //            formMovie.SelectedCategories = new List<int>();
-        //        }
-        //        if (formMovie.SelectedActors == null)
-        //        {
-        //            formMovie.SelectedActors = new List<int>();
-        //        }
-        //        return View(formMovie);
-        //    }
-        //    dbMovieRepository.Update(movieToUpdate, formMovie);
-        //    return RedirectToAction("Details", new { id = movieToUpdate.Id });
-        //}
+        public IActionResult Update(int id)
+        {
+            FormTvShow formTvShow = new FormTvShow();
+            formTvShow.TvShow = dbTvShowRepository.GetById(id, true, true, false);
+            if (formTvShow.TvShow == null)
+            {
+                return NotFound();
+            }
+            formTvShow.Categories = dbCategoryRepository.GetAll();
+            formTvShow.Actors = dbActorRepository.GetAll();
+            formTvShow.SelectedCategories = new List<int>();
+            formTvShow.SelectedActors = new List<int>();
+            if (formTvShow.TvShow.Categories.Count() > 0)
+            {
+                foreach (Category category in formTvShow.TvShow.Categories)
+                {
+                    formTvShow.SelectedCategories.Add(category.Id);
+                }
+            }
+            if (formTvShow.TvShow.Actors.Count() > 0)
+            {
+                foreach (Actor actor in formTvShow.TvShow.Actors)
+                {
+                    formTvShow.SelectedActors.Add(actor.Id);
+                }
+            }
+            return View(formTvShow);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(int id, FormTvShow formTvShow)
+        {
+            TvShow tvShowToUpdate = dbTvShowRepository.GetById(id, true, true, true);
+            if (tvShowToUpdate == null)
+            {
+                return NotFound();
+            }
+            if (!ModelState.IsValid)
+            {
+                formTvShow.TvShow = tvShowToUpdate;
+                formTvShow.Actors = dbActorRepository.GetAll();
+                formTvShow.Categories = dbCategoryRepository.GetAll();
+                if (formTvShow.SelectedCategories == null)
+                {
+                    formTvShow.SelectedCategories = new List<int>();
+                }
+                if (formTvShow.SelectedActors == null)
+                {
+                    formTvShow.SelectedActors = new List<int>();
+                }
+                return View(formTvShow);
+            }
+            dbTvShowRepository.Update(tvShowToUpdate, formTvShow);
+            return RedirectToAction("Details", new { id = tvShowToUpdate.Id });
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
         {
-            TvShow tvShowToDelete = dbTvShowRepository.GetById(id, false, false);
+            TvShow tvShowToDelete = dbTvShowRepository.GetById(id, false, false, false);
             if (tvShowToDelete == null)
             {
                 return NotFound();

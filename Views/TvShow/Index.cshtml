@@ -13,18 +13,25 @@
             {
                 <div class="col">
                     <div class="ms_card">
-                        <img src="@tvShow.Cover" alt="@tvShow.Title">
-                        <div class="ms_card-body">
+                        @if (tvShow.Cover != null)
+                        {
+                            <img src="@tvShow.Cover" alt="@tvShow.Title">
+                        }
+                        else
+                        {
+                            <img src="https://troianiortodonzia.it/wp-content/uploads/2016/10/orionthemes-placeholder-image.png" alt="@tvShow.Title">
+                        }
+                        <div class="ms_card-body" style="overflow-y: auto">
                             <h5 class="ms_card-title">@tvShow.Title</h5>
                             <div class="ms_card-text mb-3">
                                 <strong>
-                                    Trama:
+                                    Voto:
                                 </strong>
-                                @tvShow.Description
+                                ?
                             </div>
                             <a href="@Url.Action("Details", new { id = tvShow.Id })" class="btn btn-primary mb-2" style="width: 100%;">Info</a>
-                            @*<a href="@Url.Action("Update", new { id = tvShow.Id })" class="btn btn-warning mb-2" style="width: 100%;">Modifica</a>*@
                             <a class="btn btn-primary mb-2" style="width: 100%;" asp-area="" asp-controller="Season" asp-action="Create" asp-route-id="@tvShow.Id">Aggiungi Stagione</a>
+                            <a href="@Url.Action("Update", new { id = tvShow.Id })" class="btn btn-warning mb-2" style="width: 100%;">Modifica</a>
                             <form asp-controller="TvShow" asp-action="Delete" asp-route-id="@tvShow.Id" method="POST">
 
                                 @Html.AntiForgeryToken()

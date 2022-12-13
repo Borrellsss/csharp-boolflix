@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "_BackOfficeLayout";
+}
+
+@model csharp_boolflix.Data.FormModels.FormSeason
+
+<div>
+    <h1 class="text-center">Aggiungi Stagione di @Model.TvShow.Title</h1>
+    <form asp-controller="Season" asp-action="Create" method="POST">
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" asp-for="Season.Number" placeholder="Numero Stagione">
+            <label asp-for="Season.Number">Numero Stagione</label>
+            <span asp-validation-for="Season.Number" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" asp-for="Season.Title" placeholder="Titolo">
+            <label asp-for="Season.Title">Titolo</label>
+            <span asp-validation-for="Season.Title" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Aggiungi Stagione</button>
+    </form>
+</div>
