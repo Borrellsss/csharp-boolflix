@@ -1,0 +1,71 @@
+﻿@{
+    Layout = "_BackOfficeLayout";
+}
+
+@model csharp_boolflix.Data.FormModels.FormMovie
+
+<div>
+    <h1 class="text-center">Aggiungi un nuovo Film</h1>
+    <form asp-controller="Movie" asp-action="Create" method="POST">
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" asp-for="Movie.Title" placeholder="Titolo">
+            <label asp-for="Movie.Title">Titolo</label>
+            <span asp-validation-for="Movie.Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" asp-for="Movie.Director" placeholder="Regista (nome e cognome)">
+            <label asp-for="Movie.Director">Regista (nome e cognome)</label>
+            <span asp-validation-for="Movie.Director" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="date" class="form-control" asp-for="Movie.ReleaseDate" placeholder="Data di uscita">
+            <label asp-for="Movie.ReleaseDate">Data di uscita</label>
+            <span asp-validation-for="Movie.ReleaseDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <textarea asp-for="Movie.Description" class="form-control" placeholder="Trama"></textarea>
+            <label asp-for="Movie.Description">Trama</label>
+            <span asp-validation-for="Movie.Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" asp-for="Movie.Duration" placeholder="Durata (min)">
+            <label asp-for="Movie.Duration">Durata (min)</label>
+            <span asp-validation-for="Movie.Duration" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" asp-for="Movie.Cover" placeholder="Url Cover">
+            <label asp-for="Movie.Cover">Url Cover</label>
+            <span asp-validation-for="Movie.Cover" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            @foreach (Category category in Model.Categories)
+            {
+                <div class="form-check">
+                    <input type="checkbox" id="@($"ingredient_{category.Id}")" name="SelectedCategories" value="@category.Id" @(Model.SelectedCategories.Contains(category.Id) ? "checked" : "")>
+                    <label class="form-check-label" for="@($"ingredient_{category.Id}")">@category.Name</label>
+                </div>
+            }
+        </div>
+
+        <div class="mb-3">
+            @foreach (Actor actor in Model.Actors)
+            {
+                    <div class="form-check">
+                    <input type="checkbox" id="@($"ingredient_{actor.Id}")" name="SelectedActors" value="@actor.Id" @(Model.SelectedActors.Contains(actor.Id) ? "checked" : "")>
+                    <label class="form-check-label" for="@($"ingredient_{actor.Id}")">@actor.Name @actor.LastName</label>
+                    </div>
+            }
+        </div>
+
+        <button type="submit" class="btn btn-primary">Aggiungi Film</button>
+    </form>
+</div>

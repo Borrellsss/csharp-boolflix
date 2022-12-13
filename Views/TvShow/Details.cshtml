@@ -1,0 +1,69 @@
+﻿@{
+    Layout = "_BackOfficeLayout";
+}
+
+@model TvShow
+
+<div>
+    <div class="d-flex" style="gap: 2rem;">
+        <div class="mb-3" style="width: 350px; aspect-ratio: 2/3;">
+            <img src="@Model.Cover" alt="@Model.Title" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+
+        <div>
+            <h1>@Model.Title</h1>
+
+            <h5>Categorie:</h5>
+            @if (Model.Categories.Count() > 0)
+            {
+                <div class="d-flex mb-3" style="gap: 0.5rem;">
+                    @foreach (Category category in Model.Categories)
+                    {
+                        <span class="badge bg-primary">@category.Name</span>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="d-flex">Nessuna categoria associata</div>
+            }
+
+            <h5>Cast:</h5>
+            @if (Model.Actors.Count() > 0)
+            {
+                <div class="d-flex mb-3" style="gap: 0.5rem;">
+                    @foreach (Actor actor in Model.Actors)
+                    {
+                        <span class="badge bg-primary">@actor.Name @actor.LastName</span>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="d-flex">Nessun cast presente</div>
+            }
+
+            <h5>Data di uscita:</h5>
+            <div class="mb-3">@String.Format("{0:dd/MM/yyyy}", Model.ReleaseDate)</div>
+
+            <h5>Regista:</h5>
+            <div class="mb-3">@Model.Director</div>
+
+            <h5>Trama:</h5>
+            <div class="mb-3">
+                <p>@Model.Description</p>
+            </div>
+
+            <div class="d-flex" style="margin-inline: auto; width: fit-content; gap: 1rem;">
+                <a href="@Url.Action("Index")" class="btn btn-primary">Torna ai film</a>
+                <a href="@Url.Action("Update", new { id = Model.Id })" class="btn btn-warning">Modifica</a>
+                <form asp-controller="Movie" asp-action="Delete" asp-route-id="@Model.Id" method="POST">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="btn btn-danger">Elimina</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

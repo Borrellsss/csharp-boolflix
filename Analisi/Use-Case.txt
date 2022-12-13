@@ -1,0 +1,39 @@
+Use Case:
+	1 registrazione:
+		//;
+
+	2 login:
+		a: l'utente inserisce le credenziali;
+		b: il sistema verifica i dati inseriti;
+		c: l'utente sceglie il profilo:
+			c.1: il sitema limita contenuti se il profilo selezionato è un profilo protetto (bambini);
+
+	3 navigazione:
+		a: scelta contenuto:
+			a.1: film:
+				a.1.1: scelta lingua;
+				a.1.2: scelta sottotitoli;
+				a.1.3: //;
+			a.2: serie tv:
+				a.1.1: scelta lingua;
+				a.1.2: scelta sottotitoli;
+				a.1.3: scelta episodi;
+				a.1.4: //;
+			a.3: //;
+		b: ricerca contenuto:
+			b.1: film:
+				3.a;
+			b.2: serie tv:
+				3.a;
+			b.3: //;
+		c: modifica profilo:
+			c.1: modifica mail;
+			c.2: modifica password;
+			c.3: modifica numero;
+			c.4: verifica numero:
+			c.5: //;
+		d: cambia profilo;
+		e: esci;
+
+	eccezioni:
+		2.b: se i dati non sono corretti si torna al punto 2.a;
