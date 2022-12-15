@@ -11,12 +11,14 @@ namespace csharp_boolflix.Controllers
     {
         DbTvShowRepository dbTvShowRepository;
         DbSeasonRepository dbSeasonRepository;
+        DbEpisodeRepository dbEpisodeRepository;
         DbCategoryRepository dbCategoryRepository;
         DbActorRepository dbActorRepository;
-        public TvShowController(DbTvShowRepository _dbTvShowRepository, DbSeasonRepository _dbSeasonRepository, DbCategoryRepository _dbCategoryRepository, DbActorRepository _dbActorRepository)
+        public TvShowController(DbTvShowRepository _dbTvShowRepository, DbSeasonRepository _dbSeasonRepository, DbEpisodeRepository _dbEpisodeRepository, DbCategoryRepository _dbCategoryRepository, DbActorRepository _dbActorRepository)
         {
             dbTvShowRepository = _dbTvShowRepository;
             dbSeasonRepository = _dbSeasonRepository;
+            dbEpisodeRepository = _dbEpisodeRepository;
             dbCategoryRepository = _dbCategoryRepository;
             dbActorRepository = _dbActorRepository;
         }
@@ -28,6 +30,10 @@ namespace csharp_boolflix.Controllers
         public IActionResult Details(int id)
         {
             TvShow tvShow = dbTvShowRepository.GetById(id, true, true, true);
+            foreach(Season season in tvShow.Seasons)
+            {
+                season.Episodes = dbEpisodeRepository.GetAll(season.Id, false);
+            }
             return View(tvShow);
         }
         public IActionResult Create()

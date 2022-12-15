@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "_BackOfficeLayout";
+}
+
+@model csharp_boolflix.Data.FormModels.FormEpisode
+
+<div>
+    <h1 class="text-center">Aggiungi Episodio di @Model.Season.TvShow.Title</h1>
+    @if (@Model.Season.Title != null)
+    {
+        <h2>Stagione @Model.Season.Number: @Model.Season.Title</h2>
+    }
+    else
+    {
+        <h2>Stagione @Model.Season.Number</h2>
+    }
+    <form asp-controller="Episode" asp-action="Create" asp-route-seasonId="@Model.Season.Id" method="POST">
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" asp-for="Episode.Title" placeholder="Titolo Episodio">
+            <label asp-for="Episode.Title">Titolo Episodio</label>
+            <span asp-validation-for="Episode.Title" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <textarea asp-for="Episode.Description" class="form-control" placeholder="Trama"></textarea>
+            <label asp-for="Episode.Description">Trama</label>
+            <span asp-validation-for="Episode.Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" asp-for="Episode.Duration" placeholder="Durata (min)">
+            <label asp-for="Episode.Duration">Durata (min)</label>
+            <span asp-validation-for="Episode.Duration" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Aggiungi Episodio</button>
+    </form>
+</div>

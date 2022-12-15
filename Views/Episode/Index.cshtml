@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "_BackOfficeLayout";
+}
+
+@model Season
+
+<div>
+    <div class="d-flex" style="gap: 2rem;">
+        <div>
+            <div class="mb-3" style="width: 400px; height: fit-content; aspect-ratio: 2/3;">
+                @if (Model.TvShow.Cover != null)
+                {
+                    <img src="@Model.TvShow.Cover" alt="@Model.TvShow.Title" style="width: 100%; height: 100%; object-fit: cover;">
+                }
+                else
+                {
+                    <img src="https://troianiortodonzia.it/wp-content/uploads/2016/10/orionthemes-placeholder-image.png" alt="@Model.Title" style="width: 100%; height: 100%; object-fit: cover;">
+                }
+            </div>
+            <a asp-controller="TvShow" asp-action="Details" asp-route-id="@Model.TvShow.Id" class="btn btn-primary mb-2" style="width: 100%;">
+                Torna alla Serie
+            </a>
+        </div>
+
+        <div style="flex-grow: 1">
+            <h1>@Model.TvShow.Title</h1>
+            @if (Model.Title != null)
+            {
+                <h2>Stagione @Model.Number: @Model.Title</h2>
+            }
+            else
+            {
+                <h2>Stagione @Model.Number</h2>
+            }
+            @if (Model.Episodes.Count() > 0)
+            {
+                <ul class="list-group mb-3">
+                    @foreach (Episode episode in Model.Episodes)
+                    {
+                        <li class="list-group-item">
+                            <div class="mb-2">
+                                <h5>@episode.Title</h5>
+                                <p><strong>Trama: </strong>@episode.Description</p>
+                                <div><strong>Durata: </strong>@episode.Duration min.</div>
+                            </div>
+                            <div class="d-flex flex-wrap  mb-2" style="gap: 1rem;">
+                                <a class="btn btn-warning" asp-controller="Episode" asp-action="Update" asp-route-tvShowId="@episode.Season.TvShowId" asp-route-seasonId="@episode.SeasonId" asp-route-episodeId="@episode.Id">Modifica Episodio</a>
+                                <form asp-controller="Episode" asp-action="Delete" asp-route-tvShowId="@episode.Season.TvShowId" asp-route-seasonId="@episode.SeasonId" asp-route-episodeId="@episode.Id" method="POST">
+
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn btn-danger">Elimina Episodio</button>
+                                </form>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <div class="d-flex mb-3">Nessun episodio presente</div>
+            }
+            <a class="btn btn-primary mb-2" style="width: 100%;" asp-area="" asp-controller="Episode" asp-action="Create" asp-route-tvShowId="@Model.TvShowId" asp-route-seasonId="@Model.Id">Aggiungi Episodio</a>
+        </div>
+    </div>
+</div>

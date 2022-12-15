@@ -16,6 +16,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddScoped<DbMovieRepository>();
 builder.Services.AddScoped<DbTvShowRepository>();
 builder.Services.AddScoped<DbSeasonRepository>();
+builder.Services.AddScoped<DbEpisodeRepository>();
 builder.Services.AddScoped<DbCategoryRepository>();
 builder.Services.AddScoped<DbActorRepository>();
 

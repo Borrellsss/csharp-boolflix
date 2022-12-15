@@ -92,18 +92,18 @@
                                 }
                                 <div>
                                     <span>episodi</span>
-                                    <span class="badge bg-primary rounded-pill">@(season.Episodes == null ? "0" : season.Episodes.Count())</span>
+                                    <span class="badge rounded-pill" style="background-color: @(season.Episodes.Count() == 0 ? "#bb2d3b;" : "#0d6efd;")">@(season.Episodes == null ? "0" : season.Episodes.Count().ToString())</span>
                                 </div>
                             </div>
                             <div class="d-flex flex-wrap  mb-2" style="gap: 1rem;">
                                 <a class="btn btn-warning" asp-controller="Season" asp-action="Update" asp-route-tvShowId="@Model.Id" asp-route-id="@season.Id">Modifica Stagione</a>
+                                <a class="btn btn-primary" asp-controller="Episode" asp-action="Index" asp-route-tvShowId="@Model.Id" asp-route-seasonId="@season.Id">Mostra episodi</a>
                                 <form asp-controller="Season" asp-action="Delete" asp-route-tvShowId="@Model.Id" asp-route-id="@season.Id" method="POST">
 
                                     @Html.AntiForgeryToken()
 
                                     <button type="submit" class="btn btn-danger">Elimina Stagione</button>
                                 </form>
-                                <a class="btn btn-primary" asp-controller="Episode" asp-action="Index" asp-route-tvShowId="@Model.Id" asp-route-id="@season.Id">Mostra episodi</a>
                             </div>
                         </li>
                     }
